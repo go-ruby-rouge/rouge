@@ -1,0 +1,11 @@
+%TAG !e! tag:example.com,2000:app/
+---
+"quoted key": value
+'single key': value
+list:
+  - item1
+  - item2
+literal: |2
+    indented
+
+    after blank

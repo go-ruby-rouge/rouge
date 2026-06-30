@@ -1,0 +1,9 @@
+%YAML 1.2
+---
+anchor: &a value
+ref: *a
+block: |
+  line one
+  line two
+tagged: !!str 123
+...

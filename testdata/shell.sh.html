@@ -1,0 +1,10 @@
+<span class="c">#!/bin/bash</span>
+<span class="c"># greet the user</span>
+<span class="nv">name</span><span class="o">=</span><span class="s2">"world"</span>
+<span class="nb">echo</span> <span class="s2">"hello </span><span class="nv">$name</span><span class="s2">"</span>
+<span class="k">for </span>i <span class="k">in </span>1 2 3<span class="p">;</span> <span class="k">do
+	</span><span class="nb">echo</span> <span class="nv">$i</span>
+<span class="k">done
+if</span> <span class="o">[</span> <span class="nt">-f</span> foo <span class="o">]</span><span class="p">;</span> <span class="k">then
+	</span><span class="nb">cat </span>foo
+<span class="k">fi</span>
