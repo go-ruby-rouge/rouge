@@ -47,23 +47,43 @@ func FindLexer(name string) Lexer {
 	return lexerRegistry[strings.ToLower(name)]
 }
 
-// FindFancy resolves a "fancy" lexer spec of the form "tag" or "tag?option=...",
-// mirroring Rouge::Lexer.find_fancy. Options are accepted and ignored (this port
-// has no per-lex options that change tokenization). An empty or "guess" name
-// returns nil so callers can fall back to Guess. An unknown tag returns nil.
+// FindFancy resolves a "fancy" lexer spec of the form "tag" or
+// "tag?option=value&...", mirroring Rouge::Lexer.find_fancy. When the spec
+// carries options and the resolved lexer understands them (its options hook is
+// set, e.g. PHP's start_inline), FindFancy returns a configured variant;
+// otherwise the options are ignored. An empty or "guess" name returns nil so
+// callers can fall back to Guess. An unknown tag returns nil.
 func FindFancy(spec string) Lexer {
 	spec = strings.TrimSpace(spec)
 	if spec == "" {
 		return nil
 	}
-	name := spec
+	name, optStr := spec, ""
 	if i := strings.IndexByte(spec, '?'); i >= 0 {
-		name = spec[:i]
+		name, optStr = spec[:i], spec[i+1:]
 	}
 	if name == "guess" {
 		return nil
 	}
-	return FindLexer(name)
+	l := FindLexer(name)
+	if l == nil || optStr == "" {
+		return l
+	}
+	if rl, ok := l.(*RegexLexer); ok && rl.options != nil {
+		return rl.options(rl, parseFancyOpts(optStr))
+	}
+	return l
+}
+
+// parseFancyOpts splits the query part of a fancy spec ("a=1&b=2") into a map.
+// A bare key with no '=' maps to the empty string.
+func parseFancyOpts(optStr string) map[string]string {
+	opts := map[string]string{}
+	for _, part := range strings.Split(optStr, "&") {
+		k, v, _ := strings.Cut(part, "=")
+		opts[k] = v
+	}
+	return opts
 }
 
 // Guess picks a lexer for text using each lexer's content sniffer (Rouge's

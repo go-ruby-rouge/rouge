@@ -79,6 +79,11 @@ type RegexLexer struct {
 	// detect, when non-nil, is a content sniffer used by Guess (Rouge's
 	// self.detect?).
 	detect func(text string) bool
+	// options, when non-nil, builds a per-spec lexer variant from the key=value
+	// options of a "tag?opts" fancy spec (Rouge's per-lexer options), e.g. PHP's
+	// start_inline. FindFancy calls it only when a spec carries options. It must
+	// not mutate base; it returns base unchanged when no option applies.
+	options func(base *RegexLexer, opts map[string]string) Lexer
 }
 
 // Tag returns the lexer's primary tag (e.g. "ruby").

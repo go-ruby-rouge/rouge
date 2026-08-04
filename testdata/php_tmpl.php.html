@@ -1,0 +1,16 @@
+<span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+  <span class="nt">&lt;h1&gt;</span>Report<span class="nt">&lt;/h1&gt;</span>
+  <span class="cp">&lt;?php</span>
+    <span class="nv">$title</span> <span class="o">=</span> <span class="s2">"Home"</span><span class="p">;</span>
+    <span class="k">echo</span> <span class="nf">strtoupper</span><span class="p">(</span><span class="nv">$title</span><span class="p">);</span>
+  <span class="cp">?&gt;</span>
+  <span class="nt">&lt;p&gt;</span>Total: <span class="cp">&lt;?=</span> <span class="nv">$count</span> <span class="cp">?&gt;</span><span class="nt">&lt;/p&gt;</span>
+  <span class="nt">&lt;ul&gt;</span>
+    <span class="cp">&lt;?php</span> <span class="k">foreach</span> <span class="p">(</span><span class="nv">$items</span> <span class="k">as</span> <span class="nv">$item</span><span class="p">)</span><span class="o">:</span> <span class="cp">?&gt;</span>
+      <span class="nt">&lt;li&gt;</span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$item</span><span class="p">;</span> <span class="cp">?&gt;</span><span class="nt">&lt;/li&gt;</span>
+    <span class="cp">&lt;?php</span> <span class="k">endforeach</span><span class="p">;</span> <span class="cp">?&gt;</span>
+  <span class="nt">&lt;/ul&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>

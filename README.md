@@ -75,6 +75,7 @@ compared **byte-for-byte** to the gem's HTML (the `*.html` goldens).
 | Diff | `diff`, `patch`, `udiff` | with content detector |
 | Markdown | `markdown`, `md`, `mkd` | delegates fenced code to the named lexer, frontmatter to YAML |
 | SQL | `sql` | case-insensitive keyword/type sets |
+| PHP | `php`, `php3`, `php4`, `php5` | `start_inline` option, `<?php`/`<?=` template delegation to HTML, string interpolation, heredocs, enums, function/property-hook sub-states |
 | PlainText | `plaintext`, `text` | fallback |
 
 **Documented simplifications** (honest deviations from the gem):
@@ -90,6 +91,13 @@ compared **byte-for-byte** to the gem's HTML (the `*.html` goldens).
 - **Guess** uses each lexer's content detector only (a subset of the gem's
   multi-signal guesser) — enough for the unambiguous formats (diff, YAML,
   shebangs, doctype).
+- **PHP** does not model `funcnamehighlighting` (the gem's built-in-function
+  table promoting known calls to `Name.Builtin`); calls render as `Name.Function`,
+  exactly as the gem does with `funcnamehighlighting:false`, the configuration the
+  PHP goldens are captured under. Its `start_inline` fancy-spec option
+  (`php?start_inline=1`) is honoured. `FindFancy` now applies a lexer's recognised
+  options where the lexer defines them (PHP's `start_inline`); other options are
+  still accepted and ignored.
 
 ## Engine
 
