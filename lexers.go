@@ -25,6 +25,7 @@ func init() {
 	registerLexer(htmlLexer)
 	registerLexer(markdownLexer)
 	registerLexer(rubyLexer)
+	registerLexer(phpLexer)
 
 	registerFormatter(HTMLFormatter{})
 	// HTMLInline needs a theme; the registered default uses Github, mirroring a

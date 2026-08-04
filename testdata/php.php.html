@@ -1,0 +1,80 @@
+<span class="kn">namespace</span> <span class="nn">App\Models</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">App\Contracts\Repository</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nf">App\Helpers\format_date</span><span class="p">;</span>
+<span class="kn">use</span> <span class="k">function</span> <span class="nf">App\util\to_string</span><span class="p">;</span>
+
+<span class="k">const</span> <span class="no">MAX_ITEMS</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
+
+<span class="na">#[Route("/users")]</span>
+<span class="kd">class</span> <span class="nc">User</span> <span class="kd">extends</span> <span class="nc">Model</span> <span class="kd">implements</span> <span class="nc">Repository</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="kt">int</span> <span class="nv">$id</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">private</span> <span class="kt">string</span> <span class="nv">$name</span> <span class="o">=</span> <span class="s2">"guest"</span><span class="p">;</span>
+    <span class="k">protected</span> <span class="kt">?array</span> <span class="nv">$roles</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'admin'</span><span class="p">,</span> <span class="s1">'user'</span><span class="p">];</span>
+    <span class="k">public</span> <span class="k">static</span> <span class="nv">$shared</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="n">__construct</span><span class="p">(</span><span class="kt">int</span> <span class="nv">$id</span><span class="p">,</span> <span class="kt">string</span> <span class="nv">$name</span> <span class="o">=</span> <span class="s2">"anon"</span><span class="p">,</span> <span class="p">...</span><span class="nv">$rest</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="c1">// set up fields</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">id</span> <span class="o">=</span> <span class="nv">$id</span><span class="p">;</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">name</span> <span class="o">=</span> <span class="nv">$name</span><span class="p">;</span>
+        <span class="nv">$total</span> <span class="o">=</span> <span class="mh">0x1F</span> <span class="o">+</span> <span class="mb">0b1010</span> <span class="o">+</span> <span class="mo">0o17</span> <span class="o">+</span> <span class="mf">3.14</span> <span class="o">+</span> <span class="mi">42_000</span> <span class="o">+</span> <span class="mf">.5e3</span><span class="p">;</span>
+        <span class="nv">$greeting</span> <span class="o">=</span> <span class="s2">"Hi, </span><span class="si">{</span><span class="nv">$name</span><span class="si">}</span><span class="s2">! id=${id} raw=</span><span class="nv">$id</span><span class="se">\n</span><span class="s2">"</span><span class="p">;</span>
+        <span class="nv">$raw</span> <span class="o">=</span> <span class="s1">'single \' quote'</span><span class="p">;</span>
+        <span class="nv">$cmd</span> <span class="o">=</span> <span class="sb">`ls -la`</span><span class="p">;</span>
+        <span class="nv">$doc</span> <span class="o">=</span> <span class="sh">&lt;&lt;&lt;EOT
+      hello $name
+      EOT;</span>
+        <span class="k">echo</span> <span class="nv">$greeting</span><span class="p">,</span> <span class="no">MAX_ITEMS</span><span class="p">;</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nc">self</span><span class="p">(</span><span class="nv">$id</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="cd">/** doc comment */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="n">getName</span><span class="p">():</span> <span class="kt">string</span>
+    <span class="p">{</span>
+        <span class="c1"># hash comment</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">name</span> <span class="o">??</span> <span class="s2">"unknown"</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="n">value</span><span class="p">():</span> <span class="kt">int</span> <span class="nf">use</span> <span class="p">(</span><span class="nv">$id</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$id</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">enum</span> <span class="nc">Suit</span><span class="p">:</span> <span class="kt">string</span>
+<span class="p">{</span>
+    <span class="k">case</span> <span class="no">Hearts</span> <span class="o">=</span> <span class="s1">'H'</span><span class="p">;</span>
+    <span class="k">case</span> <span class="no">Spades</span> <span class="o">=</span> <span class="s1">'S'</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">interface</span> <span class="nc">Named</span> <span class="p">{}</span>
+<span class="kd">trait</span> <span class="nc">Greets</span> <span class="p">{}</span>
+
+<span class="k">try</span> <span class="p">{</span>
+    <span class="nv">$u</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">User</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+    <span class="nv">$anon</span> <span class="o">=</span> <span class="k">new</span> <span class="kd">class</span> <span class="kd">extends</span> <span class="nc">User</span> <span class="p">{};</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nc">RuntimeException</span> <span class="o">|</span> <span class="nc">LogicException</span> <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">echo</span> <span class="nv">$e</span><span class="p">;</span>
+<span class="p">}</span> <span class="k">finally</span> <span class="p">{</span>
+    <span class="k">unset</span><span class="p">(</span><span class="nv">$u</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nc">Temperature</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="kt">string</span> <span class="nv">$fullName</span> <span class="p">{</span>
+        <span class="k">get</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">first</span> <span class="mf">.</span> <span class="s2">" "</span> <span class="mf">.</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">last</span><span class="p">;</span>
+        <span class="k">set</span><span class="p">(</span><span class="kt">string</span> <span class="nv">$value</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">first</span> <span class="o">=</span> <span class="nv">$value</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kn">use</span> <span class="nn">App\Sub\</span><span class="p">{</span><span class="nc">First</span><span class="p">,</span> <span class="nc">Second</span><span class="p">};</span>
+
+<span class="nv">$fn</span> <span class="o">=</span> <span class="k">fn</span><span class="p">(</span><span class="nv">$x</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nv">$x</span> <span class="o">*</span> <span class="mi">2</span><span class="p">;</span>
+<span class="nv">$result</span> <span class="o">=</span> <span class="nf">to_string</span><span class="p">(</span><span class="nv">$now</span><span class="p">)</span> <span class="o">+</span> <span class="nf">strlen</span><span class="p">(</span><span class="nv">$name</span><span class="p">)</span> <span class="o">-</span> <span class="no">MAX_ITEMS</span><span class="p">;</span>
+<span class="nv">$flag</span> <span class="o">=</span> <span class="kc">true</span> <span class="o">&amp;&amp;</span> <span class="kc">false</span> <span class="o">||</span> <span class="kc">null</span><span class="p">;</span>
+<span class="nv">$obj</span><span class="o">-&gt;</span><span class="n">prop</span> <span class="o">=</span> <span class="nv">$arr</span><span class="p">[</span><span class="s2">"k"</span><span class="p">];</span>
+<span class="nv">$magic</span> <span class="o">=</span> <span class="nb">__MAGIC__</span><span class="p">;</span>
+<span class="k">echo</span> <span class="kc">PHP_EOL</span><span class="p">,</span> <span class="kc">E_ALL</span><span class="p">;</span>
