@@ -1,3 +1,11 @@
+> [!WARNING]
+> **DEPRECATED — this repository is a stale duplicate, kept in place (not archived) for reference.**
+>
+> The maintained source of truth is **[github.com/go-rouge/rouge](https://github.com/go-rouge/rouge)**.
+> All consumers (rbgo, jekyll, wasmbox) depend on `github.com/go-rouge/rouge`; do not add new dependencies on this `go-ruby-rouge` path.
+
+---
+
 <p align="center"><img src="https://raw.githubusercontent.com/go-ruby-rouge/brand/main/social/go-ruby-rouge-rouge.png" alt="go-ruby-rouge/rouge" width="720"></p>
 
 # rouge — go-ruby-rouge
