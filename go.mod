@@ -2,4 +2,6 @@ module github.com/go-ruby-rouge/rouge
 
 go 1.26.4
 
-require github.com/go-ruby-regexp/regexp v0.0.0-20260701043846-fa3d6604e1ee
+require github.com/go-ruby-regexp/regexp v0.0.0-20260807185050-0533785e97b7
+
+require github.com/go-regexp/engine v0.1.0 // indirect
